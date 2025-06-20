@@ -1,8 +1,10 @@
-"""Pydantic request and response schemas."""
-
 from typing import Any, Dict, List
-
 from pydantic import BaseModel
+from bson import ObjectId
+
+
+class ConfigObjectId:
+    json_encoders = {ObjectId: lambda v: str(v)}
 
 
 class CandidateInput(BaseModel):
@@ -11,7 +13,7 @@ class CandidateInput(BaseModel):
     personal_statement: str
 
 
-class CandidateOutput(BaseModel):
+class CandidateOutput(BaseModel, ConfigObjectId):
     id: str
     profile: Dict[str, Any]
 
@@ -20,7 +22,7 @@ class CompanyInput(BaseModel):
     sources: List[str]
 
 
-class CompanyOutput(BaseModel):
+class CompanyOutput(BaseModel, ConfigObjectId):
     id: str
     cues: Dict[str, Any]
 
@@ -31,8 +33,20 @@ class InterviewInput(BaseModel):
     responses: List[str]
 
 
-class InterviewOutput(BaseModel):
+class InterviewOutput(BaseModel, ConfigObjectId):
     id: str
     questions: List[str]
     evaluation: Dict[str, Any]
     coaching: List[str]
+
+class QuestionsRequest(BaseModel):
+    candidate_id: str
+    company_id: str
+
+class QuestionsResponse(BaseModel):
+    id: str
+    questions: List[str]
+
+class InterviewInput(BaseModel):
+    id: str                # interview document id
+    responses: List[str]

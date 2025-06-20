@@ -1,7 +1,7 @@
 """Application settings for the backend."""
 
 import os
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     database_url: str = os.getenv(
         "DATABASE_URL",
-        "mongodb://localhost:27017",
+        "mongodb+srv://vikramshanmugam2002:oQDDiwFyExNZ6b5D@cluster0.kotkjf5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
     )
     mongo_db_name: str = "culture_fit"
 
