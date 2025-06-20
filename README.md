@@ -6,7 +6,7 @@ This repository aims to build an **Agentic AI-powered Culture Fit Interview Simu
 - Build a web platform for uploading candidate data (resume, LinkedIn, personal statement) and company cultural documents or URLs.
 - Integrate an Agentic AI workflow in a single RAG-enabled agent for retrieving cultural cues.
 - Implement multiple specialized agents to handle candidate profiling, question generation, response evaluation, and coaching.
-- Store profiles, questions, evaluations, and feedback in a database.
+- Store profiles, questions, evaluations, and feedback in a MongoDB database.
 - Ensure explainable, unbiased scoring with sentiment analysis.
 
 ## System Architecture
@@ -33,3 +33,12 @@ This repository aims to build an **Agentic AI-powered Culture Fit Interview Simu
 7. The UI displays questions, evaluation scores, and coaching advice.
 
 See the `docs/` directory for a detailed specification of each agent and acceptance criteria.
+
+## Running the Backend
+
+Ensure a MongoDB instance is accessible. Update `DATABASE_URL` in `.env` or copy
+`.env.example` with the provided connection string. Then run:
+
+```bash
+uvicorn backend.app.main:app --reload
+```
