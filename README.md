@@ -34,6 +34,13 @@ This repository aims to build an **Agentic AI-powered Culture Fit Interview Simu
 
 See the `docs/` directory for a detailed specification of each agent and acceptance criteria.
 
+## Environment Variables
+
+The backend expects a MongoDB connection string provided via the
+`DATABASE_URL` environment variable. If not specified, it defaults to
+`mongodb://localhost:27017`. You can copy `.env.example` to `.env` and
+adjust the value as needed.
+
 ## Running the Backend
 
 Ensure a MongoDB instance is accessible. Update `DATABASE_URL` in `.env` or copy
