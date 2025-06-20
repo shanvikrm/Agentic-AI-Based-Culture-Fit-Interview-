@@ -37,7 +37,14 @@ See the `docs/` directory for a detailed specification of each agent and accepta
 ## Running the Backend
 
 Ensure a MongoDB instance is accessible. Update `DATABASE_URL` in `.env` or copy
-`.env.example` with the provided connection string. Then run:
+`.env.example` with the provided connection string. Install backend dependencies
+using `pip`:
+
+```bash
+pip install -r backend/requirements.txt
+```
+
+Then run:
 
 ```bash
 uvicorn backend.app.main:app --reload
