@@ -69,7 +69,8 @@ class CandidateProfileAgent(BaseAgent):
             if not line:
                 continue
             if re.search(r"^skills?[:\-]", lower):
-                skills.extend(re.split(r",|;", line.split("", 1)[-1]))
+                skills_line = re.split(r"[:\-]", line, 1)[-1]
+                skills.extend(re.split(r",|;", skills_line))
             elif "experience" in lower:
                 experience.append(line)
             elif "achievement" in lower or "accomplish" in lower:
