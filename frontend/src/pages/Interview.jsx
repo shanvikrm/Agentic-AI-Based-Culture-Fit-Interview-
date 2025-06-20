@@ -2,27 +2,33 @@ import React, { useState } from 'react';
 import { post } from '../api.js';
 
 export default function Interview({ onComplete }) {
-  const [form, setForm] = useState({
-    candidate_id: '',
-    company_id: '',
-    responses: '',
-  });
+  // Step 1: IDs to fetch questions
+  const [ids, setIds] = useState({ candidate_id: '', company_id: '' });
+  const [interviewId, setInterviewId] = useState(null);
+  const [questions, setQuestions] = useState([]);
+  const [responses, setResponses] = useState('');
   const [result, setResult] = useState(null);
 
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleIdsChange = (e) =>
+    setIds({ ...ids, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e) => {
+  const handleGetQuestions = async (e) => {
+    e.preventDefault();
+    const data = await post('/interview/questions', ids);
+    setInterviewId(data.id);
+    setQuestions(data.questions);
+  };
+
+  const handleSubmitAnswers = async (e) => {
     e.preventDefault();
     const payload = {
-      candidate_id: form.candidate_id,
-      company_id: form.company_id,
-      responses: form.responses
+      id: interviewId,
+      responses: responses
         .split('\n')
         .map((s) => s.trim())
         .filter(Boolean),
     };
-    const data = await post('/interview', payload);
+    const data = await post('/interview/answers', payload);
     setResult(data);
     if (onComplete) onComplete(data);
   };
@@ -30,36 +36,47 @@ export default function Interview({ onComplete }) {
   return (
     <section>
       <h2>Interview</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            name="candidate_id"
-            placeholder="Candidate ID"
-            value={form.candidate_id}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <input
-            name="company_id"
-            placeholder="Company ID"
-            value={form.company_id}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
+
+      {!questions.length && !result && (
+        <form onSubmit={handleGetQuestions}>
+          <div>
+            <input
+              name="candidate_id"
+              placeholder="Candidate ID"
+              value={ids.candidate_id}
+              onChange={handleIdsChange}
+            />
+          </div>
+          <div>
+            <input
+              name="company_id"
+              placeholder="Company ID"
+              value={ids.company_id}
+              onChange={handleIdsChange}
+            />
+          </div>
+          <button type="submit">Get Questions</button>
+        </form>
+      )}
+
+      {questions.length > 0 && !result && (
+        <form onSubmit={handleSubmitAnswers}>
+          <ol>
+            {questions.map((q, i) => (
+              <li key={i}>{q}</li>
+            ))}
+          </ol>
           <textarea
             name="responses"
-            placeholder="Candidate responses, one per line"
-            value={form.responses}
-            onChange={handleChange}
+            placeholder="Responses, one per line"
+            value={responses}
+            onChange={(e) => setResponses(e.target.value)}
           />
-        </div>
-        <button type="submit">Run Interview</button>
-      </form>
-      {result && (
-        <pre>{JSON.stringify(result, null, 2)}</pre>
+          <button type="submit">Submit Answers</button>
+        </form>
       )}
+
+      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
     </section>
   );
 }
