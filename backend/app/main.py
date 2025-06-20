@@ -1,17 +1,14 @@
-"""Entry point for running the culture fit interview simulator."""
+"""Entry point for running the culture fit interview backend."""
 
-from agents import (
-    CompanyCultureRetrieverAgent,
-    CandidateProfileAgent,
-    QuestionGeneratorAgent,
-    ResponseEvaluatorAgent,
-    ResponseCoachingAgent,
-    CulturalCues,
-    CandidateProfile,
-)
+from .agents.culture_retriever import CompanyCultureRetrieverAgent
+from .agents.candidate_profile import CandidateProfileAgent
+from .agents.question_generator import QuestionGeneratorAgent
+from .agents.response_evaluator import ResponseEvaluatorAgent
+from .agents.response_coach import ResponseCoachingAgent
+from .agents.base import CulturalCues, CandidateProfile
 
 
-def run_example():
+def run_example() -> None:
     """Run an example workflow using placeholder data."""
     retriever = CompanyCultureRetrieverAgent()
     profile_agent = CandidateProfileAgent()
@@ -19,10 +16,10 @@ def run_example():
     evaluator = ResponseEvaluatorAgent()
     coach = ResponseCoachingAgent()
 
-    # Placeholder inputs
     cues = retriever.retrieve(["company_values.pdf"])
-    profile = profile_agent.build_profile("resume.pdf", "https://linkedin.com/in/example", "I value collaboration and innovation.")
-
+    profile = profile_agent.build_profile(
+        "resume.pdf", "https://linkedin.com/in/example", "I value collaboration"
+    )
     questions = question_agent.generate(cues, profile)
     responses = ["sample response"]
     evaluation = evaluator.evaluate(responses, cues)
