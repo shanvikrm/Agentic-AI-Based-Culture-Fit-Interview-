@@ -42,3 +42,20 @@ Ensure a MongoDB instance is accessible. Update `DATABASE_URL` in `.env` or copy
 ```bash
 uvicorn backend.app.main:app --reload
 ```
+
+## Running the Frontend
+
+The frontend lives in the `frontend` directory and uses Vite with React. To
+start the development server run:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+For a production build execute:
+
+```bash
+npm run build
+```
