@@ -73,3 +73,4 @@ For a production build execute:
 ```bash
 npm run build
 ```
+architecture diagram : https://tinyurl.com/4xefbkbs
