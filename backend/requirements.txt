@@ -2,3 +2,7 @@ fastapi
 uvicorn
 sqlalchemy
 pydantic
+requests
+beautifulsoup4
+pdfplumber
+python-docx
